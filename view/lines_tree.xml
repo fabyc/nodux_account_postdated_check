@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- This file is part of the nodux_account_postdated_check module for Tryton.
+The COPYRIGHT file at the top level of this repository contains
+the full copyright notices and license terms. -->
+<tree string="Lines" editable="top" >
+    <field name="name" expand="1"/>
+    <field name="date" expand="1"/>
+    <field name="amount" expand="1"/>
+    <field name="account_new" expand="1"/>
+    <field name="number" expand="1"/>
+</tree>

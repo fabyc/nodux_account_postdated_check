@@ -1,0 +1,259 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:account.postdated:"
+msgid "You can not delete a postdated check that is posted!"
+msgstr "¡No puede eliminar un cheque posfechado ya confirmado!"
+
+msgctxt "field:account.postdated,comment:"
+msgid "Comment"
+msgstr "Comentario"
+
+msgctxt "field:account.postdated,company:"
+msgid "Company"
+msgstr "Empresa"
+
+msgctxt "field:account.postdated,create_date:"
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+msgctxt "field:account.postdated,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:account.postdated,currency:"
+msgid "Currency"
+msgstr "Moneda"
+
+msgctxt "field:account.postdated,date:"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "field:account.postdated,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.postdated,journal:"
+msgid "Journal"
+msgstr "Libro Diario"
+
+msgctxt "field:account.postdated,lines:"
+msgid "Lines"
+msgstr "Transacciones"
+
+msgctxt "field:account.postdated,move:"
+msgid "Move"
+msgstr "Movimiento"
+
+msgctxt "field:account.postdated,number:"
+msgid "Number"
+msgstr "Número"
+
+msgctxt "field:account.postdated,party:"
+msgid "Party"
+msgstr "Terceros"
+
+msgctxt "field:account.postdated,post_check_type:"
+msgid "Type"
+msgstr "Tipo"
+
+msgctxt "field:account.postdated,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.postdated,state:"
+msgid "State"
+msgstr "Estado"
+
+msgctxt "field:account.postdated,write_date:"
+msgid "Write Date"
+msgstr "Fecha de Modificación"
+
+msgctxt "field:account.postdated,write_uid:"
+msgid "Write User"
+msgstr "Modificado por Usuario"
+
+msgctxt "field:account.postdated.line,account:"
+msgid "Account"
+msgstr "Financiero"
+
+msgctxt "field:account.postdated.line,amount:"
+msgid "Amount"
+msgstr "Valor"
+
+msgctxt "field:account.postdated.line,create_date:"
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+msgctxt "field:account.postdated.line,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:account.postdated.line,date:"
+msgid "Date"
+msgstr "Fecha"
+
+msgctxt "field:account.postdated.line,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.postdated.line,move_line:"
+msgid "Move Line"
+msgstr "Línea de asiento"
+
+msgctxt "field:account.postdated.line,name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.postdated.line,postdated:"
+msgid "Postdated check"
+msgstr "Cheques posfechados"
+
+msgctxt "field:account.postdated.line,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.postdated.line,reference:"
+msgid "reference"
+msgstr "Referencia"
+
+msgctxt "field:account.postdated.line,write_date:"
+msgid "Write Date"
+msgstr "Fecha de Modificación"
+
+msgctxt "field:account.postdated.line,write_uid:"
+msgid "Write User"
+msgstr "Modificado por Usuario"
+
+msgctxt "field:account.postdated.sequence,create_date:"
+msgid "Create Date"
+msgstr "Fecha de Creación"
+
+msgctxt "field:account.postdated.sequence,create_uid:"
+msgid "Create User"
+msgstr "Usuario creación"
+
+msgctxt "field:account.postdated.sequence,id:"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "field:account.postdated.sequence,postdated_sequence:"
+msgid "Post dated check sequence"
+msgstr "Secuencia de cheque posfechado"
+
+msgctxt "field:account.postdated.sequence,rec_name:"
+msgid "Name"
+msgstr "Nombre"
+
+msgctxt "field:account.postdated.sequence,write_date:"
+msgid "Write Date"
+msgstr "Fecha de Modificación"
+
+msgctxt "field:account.postdated.sequence,write_uid:"
+msgid "Write User"
+msgstr "Modificado por Usuario"
+
+msgctxt "help:account.postdated,number:"
+msgid "Post dated check number"
+msgstr "Número de cheque posfechado"
+
+msgctxt "model:account.postdated,name:"
+msgid "Account Post Date Check"
+msgstr "Cheques posfechados"
+
+msgctxt "model:account.postdated.line,name:"
+msgid "Account Post Dated Check Line"
+msgstr "Lineas de cheque posfechados"
+
+msgctxt "model:account.postdated.sequence,name:"
+msgid "Post Dated Check Sequence"
+msgstr "Secuencia de cheques posfechados"
+
+msgctxt "model:ir.action,name:"
+msgid "All Vouchers"
+msgstr "Todos los comprobantes"
+
+msgctxt "model:ir.action,name:act_postdated_check_form"
+msgid "All Post Dated Check"
+msgstr "Todos los cheques posfechados"
+
+msgctxt "model:ir.action,name:act_postdated_check_payment_form"
+msgid "Payments"
+msgstr "Cheques posfechados emitidos"
+
+msgctxt "model:ir.action,name:act_postdated_check_receipt_form"
+msgid "Receipts"
+msgstr "Cheques postfechados recibidos"
+
+msgctxt "model:ir.sequence,name:"
+msgid "Account Voucher"
+msgstr "Comprobante contable"
+
+msgctxt "model:ir.sequence,name:seq_account_postdated_check"
+msgid "Account Postdated Check"
+msgstr "Cheques posfechados"
+
+msgctxt "model:ir.sequence.type,name:"
+msgid "Account Voucher"
+msgstr "Comprobante contable"
+
+msgctxt "model:ir.sequence.type,name:seq_type_account_postdated_check"
+msgid "Account Postdated Check"
+msgstr "Cheques posfechados"
+
+msgctxt "model:ir.ui.menu,name:"
+msgid "All Vouchers"
+msgstr "Todos los comprobantes"
+
+msgctxt "model:ir.ui.menu,name:menu_postdated_check"
+msgid "Postdated Check"
+msgstr "Cheques posfechados"
+
+msgctxt "model:ir.ui.menu,name:menu_postdated_check_form"
+msgid "All Post Dated Check"
+msgstr "Todos los cheques posfechados"
+
+msgctxt "model:ir.ui.menu,name:menu_postdated_check_payment_form"
+msgid "Payments"
+msgstr "Cheques posfechados emitidos"
+
+msgctxt "model:ir.ui.menu,name:menu_postdated_check_receipt_form"
+msgid "Receipts"
+msgstr "Cheques posfechados recibidos"
+
+msgctxt "selection:account.postdated,post_check_type:"
+msgid "Payment"
+msgstr "Pago"
+
+msgctxt "selection:account.postdated,post_check_type:"
+msgid "Receipt"
+msgstr "Ingreso"
+
+msgctxt "selection:account.postdated,state:"
+msgid "Posted"
+msgstr "Contabilizado"
+
+msgctxt "view:account.move.line:"
+msgid "Lines"
+msgstr "Líneas"
+
+msgctxt "view:account.postdated.line:"
+msgid "Lines"
+msgstr "Transacciones"
+
+msgctxt "view:account.postdated:"
+msgid "Postdated Check"
+msgstr "Cheques posfechados"
+
+msgctxt "view:account.postdated:"
+msgid "Postdated Check Lines"
+msgstr "Lineas de cheque posfechado"
+
+msgctxt "view:account.postdated:"
+msgid "Postdated check"
+msgstr "Cheques posfechados"
+
+msgctxt "view:account.postdated:"
+msgid "_Depositar"
+msgstr "Depositar"

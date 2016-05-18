@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!-- This file is part of the nodux_account_postdated_check module for Tryton.
+The COPYRIGHT file at the top level of this repository contains
+the full copyright notices and license terms. -->
+<form string="Postdated Check" col="6">
+    <label name="party"/>
+    <field name="party"/>
+    <label name="number"/>
+    <field name="number"/>
+    <label name="date"/>
+    <field name="date"/>
+    <newline/>
+    <label name="journal"/>
+    <field name="journal"/>
+    <label name="currency"/>
+    <field name="currency"/>
+    <label name="post_check_type"/>
+    <field name="post_check_type"/>
+    <newline/>
+    <label name="comment"/>
+    <field name="comment"/>
+    <newline/>
+    <notebook colspan="6">
+        <page string="Postdated Check Lines" id="lines">
+            <field name="lines" mode="tree" colspan="4"
+                view_ids="nodux_account_postdated_check.lines_view_tree"/>
+        </page>
+    </notebook>
+    <newline/>
+    <label name="state"/>
+    <field name="state"/>
+    <group colspan="6" id="group_check_1">
+        <button name="post" string="_Depositar"/>
+    </group>
+</form>
