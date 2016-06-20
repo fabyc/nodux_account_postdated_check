@@ -19,7 +19,7 @@ try:
 except:
     print("Warning: Does not possible import numword module!")
     print("Please install it...!")
-    
+
 
 __all__ = [ 'PostDatedCheckSequence', 'AccountPostDateCheck', 'AccountPostDatedCheckLine']
 
@@ -59,7 +59,7 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         ('posted', 'Posted'),
         ], 'State', select=True, readonly=True)
     move = fields.Many2One('account.move', 'Move', readonly=True)
-                
+
     @classmethod
     def __setup__(cls):
         super(AccountPostDateCheck, cls).__setup__()
@@ -100,23 +100,23 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         if post_check_type_id == 'receipt':
             for j in journal_r:
                 return j.id
-            
+
         if post_check_type_id == 'payment':
             for j in journal:
                 return j.id
-        
+
     def set_number(self):
         Sequence = Pool().get('ir.sequence')
         AccountPostDatedSequence = Pool().get('account.postdated.sequence')
         sequence = AccountPostDatedSequence(1)
         self.write([self], {'number': Sequence.get_id(
             sequence.postdated_sequence.id)})
-    
+
     def prepare_lines(self):
         pool = Pool()
         Period = pool.get('account.period')
         Move = pool.get('account.move')
-        
+
         move_lines = []
         line_move_ids = []
         move, = Move.create([{
@@ -128,13 +128,13 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         self.write([self], {
                 'move': move.id,
                 })
-                
+
         for line in self.lines:
             if line.account_new:
                 account_new = line.account_new
             else:
                 self.raise_user_error("No ha ingresado la cuenta de Bancos")
-                
+
             if self.post_check_type == 'receipt':
                 debit = Decimal('0.00')
                 credit = line.amount
@@ -142,8 +142,8 @@ class AccountPostDateCheck(ModelSQL, ModelView):
             else:
                 debit = line.amount
                 credit = Decimal('0.00')
-                total -= line.amount
-                
+                total = line.amount
+
             move_lines.append({
                 'description': self.number,
                 'debit': debit,
@@ -153,10 +153,13 @@ class AccountPostDateCheck(ModelSQL, ModelView):
                 'journal': self.journal.id,
                 'period': Period.find(self.company.id, date=self.date),
                 })
-                
+
             if self.post_check_type == 'receipt':
                 debit = total
                 credit = Decimal(0.0)
+            else:
+                debit = Decimal(0.0)
+                credit = total
 
             move_lines.append({
                 'description': self.number,
@@ -169,7 +172,7 @@ class AccountPostDateCheck(ModelSQL, ModelView):
                 'date': self.date,
             })
         return move_lines
-                
+
     def deposit(self, move_lines):
         pool = Pool()
         Move = pool.get('account.move')
@@ -177,27 +180,24 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         created_lines = MoveLine.create(move_lines)
         Move.post([self.move])
         Voucher = pool.get('account.voucher')
-        
+
         reconcile_lines = []
-        
+
         for line in self.lines:
             voucher = Voucher.search([('number', '=', line.name)])
             for v in voucher:
                 move = v.move
-            line_r = MoveLine.search([('account', '=', line.account.id), ('move', '=', move.id)]) 
-            
+            line_r = MoveLine.search([('account', '=', line.account.id), ('move', '=', move.id)])
+
             for line in line_r:
                 reconcile_lines.append(line)
             for move_line in created_lines:
                 if move_line.account.id == line.account.id:
                     reconcile_lines.append(move_line)
             MoveLine.reconcile(reconcile_lines)
-            
-        
+
         return True
-    
-    
-                  
+
     @classmethod
     def delete(cls, postdateds):
         if not postdateds:
@@ -206,7 +206,7 @@ class AccountPostDateCheck(ModelSQL, ModelView):
             if postdated.state == 'posted':
                 cls.raise_user_error('delete_postdated')
         return super(AccountPostDateCheck, cls).delete(postdateds)
-            
+
     @classmethod
     @ModelView.button
     def post(cls, postdateds):
@@ -228,4 +228,3 @@ class AccountPostDatedCheckLine(ModelSQL, ModelView):
     date = fields.Date('Date')
     account_new = fields.Many2One('account.account', 'Account bank')
     number = fields.Char('Deposit number')
-    

@@ -78,6 +78,10 @@ msgctxt "field:account.postdated.line,account:"
 msgid "Account"
 msgstr "Financiero"
 
+msgctxt "field:account.postdated.line,account_new:"
+msgid "Account bank"
+msgstr "Cuenta banco"
+
 msgctxt "field:account.postdated.line,amount:"
 msgid "Amount"
 msgstr "Valor"
@@ -103,8 +107,12 @@ msgid "Move Line"
 msgstr "Línea de asiento"
 
 msgctxt "field:account.postdated.line,name:"
-msgid "Name"
+msgid "Reference"
 msgstr "Nombre"
+
+msgctxt "field:account.postdated.line,number:"
+msgid "Deposit number"
+msgstr "Numero de depósito"
 
 msgctxt "field:account.postdated.line,postdated:"
 msgid "Postdated check"
@@ -113,10 +121,6 @@ msgstr "Cheques posfechados"
 msgctxt "field:account.postdated.line,rec_name:"
 msgid "Name"
 msgstr "Nombre"
-
-msgctxt "field:account.postdated.line,reference:"
-msgid "reference"
-msgstr "Referencia"
 
 msgctxt "field:account.postdated.line,write_date:"
 msgid "Write Date"
@@ -229,6 +233,10 @@ msgstr "Pago"
 msgctxt "selection:account.postdated,post_check_type:"
 msgid "Receipt"
 msgstr "Ingreso"
+
+msgctxt "selection:account.postdated,state:"
+msgid "Draft"
+msgstr "Borrador"
 
 msgctxt "selection:account.postdated,state:"
 msgid "Posted"
