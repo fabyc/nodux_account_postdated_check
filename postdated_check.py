@@ -228,3 +228,6 @@ class AccountPostDatedCheckLine(ModelSQL, ModelView):
     date = fields.Date('Date')
     account_new = fields.Many2One('account.account', 'Account bank')
     number = fields.Char('Deposit number')
+    date_expire = fields.Date('Expired Date')
+    num_check = fields.Char('No. check')
+    num_account = fields.Char('No. account')
