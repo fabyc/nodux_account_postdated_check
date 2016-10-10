@@ -59,6 +59,12 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         ('posted', 'Posted'),
         ], 'State', select=True, readonly=True)
     move = fields.Many2One('account.move', 'Move', readonly=True)
+    reference = fields.Char('Reference')
+
+    postdated_type = fields.Selection([
+        ('check', 'Check'),
+        ('card', 'Card'),
+        ], 'Document Type', select=True, readonly=True)
 
     @classmethod
     def __setup__(cls):

@@ -3,6 +3,9 @@
 The COPYRIGHT file at the top level of this repository contains
 the full copyright notices and license terms. -->
 <form string="Postdated Check" col="6">
+    <label name="postdated_type"/>
+    <field name="postdated_type"/>
+    <newline/>
     <label name="party"/>
     <field name="party"/>
     <label name="number"/>
