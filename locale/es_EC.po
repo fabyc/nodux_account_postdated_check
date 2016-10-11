@@ -254,6 +254,10 @@ msgctxt "selection:account.postdated,state:"
 msgid "Posted"
 msgstr "Contabilizado"
 
+msgctxt "selection:account.postdated,state:"
+msgid "Protested"
+msgstr "Protestado"
+
 msgctxt "view:account.move.line:"
 msgid "Lines"
 msgstr "Líneas"

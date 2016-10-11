@@ -29,7 +29,7 @@ __all__ = [ 'PostDatedCheckSequence', 'AccountPostDateCheck', 'AccountPostDatedC
 __metaclass__ = PoolMeta
 
 _STATES = {
-    'readonly': In(Eval('state'), ['posted']),
+    'readonly': In(Eval('state'), ['posted', 'protested']),
 }
 
 class PostDatedCheckSequence(ModelSingleton, ModelSQL, ModelView):
@@ -62,10 +62,10 @@ class AccountPostDateCheck(ModelSQL, ModelView):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Posted'),
+        ('protested', 'Protested'),
         ], 'State', select=True, readonly=True)
     move = fields.Many2One('account.move', 'Move', readonly=True)
-    reference = fields.Char('Reference')
-
+    reference = fields.Char('Reference', states=_STATES)
     postdated_type = fields.Selection([
         ('check', 'Check'),
         ('card', 'Card'),
@@ -79,7 +79,7 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         })
         cls._buttons.update({
                 'post': {
-                    'invisible': Eval('state') == 'posted',
+                    'invisible': In(Eval('state'), ['posted', 'protested']),
                     },
                 })
         cls._order.insert(0, ('date', 'DESC'))
@@ -296,7 +296,6 @@ class ProtestedCheck(Wizard):
                         for line in move_first.lines:
                             if (line.party != None) and (line.reconciliation != None):
                                     crear = True
-
                 for line in p.move.lines:
                     if line.debit == Decimal (0.0):
                         move_lines.append({
@@ -322,6 +321,9 @@ class ProtestedCheck(Wizard):
                             })
                 created_lines = MoveLine.create(move_lines)
                 Move.post([move])
+                p.write([p], {
+                        'state': 'protested',
+                        })
             else:
                 self.raise_user_error('Verifique que el documento sea cheque y se encuentre depositado')
 
@@ -336,37 +338,39 @@ class ProtestedCheck(Wizard):
                     'date': p.move.date,
                     'origin': str(p.move.origin),
                 }])
+
                 for line in p.move.lines:
                     if line.account == account_check :
-                        value_d = line.debit
+                        value_d = line.credit
 
-                    for line_p in p.lines:
-                        moves = Move.search([('description', '=', line_p.name)])
+                for line_p in p.lines:
+                    moves = Move.search([('description', '=', line_p.name), ('description', '!=', None)])
 
-                    if moves:
-                        for move in moves:
-                            for line in move.lines:
-                                if (line.party != None) and (line.reconciliation != None):
-                                        move_lines_new.append({
-                                            'description': line.description,
-                                            'debit': value_d,
-                                            'credit': Decimal(0.0),
-                                            'account': line.account,
-                                            'move': move_new,
-                                            'journal': line.journal,
-                                            'period': line.period,
-                                            'date' : line.date,
-                                            })
+                if moves:
+                    for move in moves:
+                        for line in move.lines:
+                            if (line.party != None) and (line.reconciliation != None):
+                                    move_lines_new.append({
+                                        'description': line.description,
+                                        'debit': value_d,
+                                        'credit': Decimal(0.0),
+                                        'account': line.account,
+                                        'move': move_new,
+                                        'journal': line.journal,
+                                        'period': line.period,
+                                        'date' : line.date,
+                                        'party' : line.party,
+                                        })
 
-                                        move_lines_new.append({
-                                            'description': line.description,
-                                            'debit': Decimal(0.0),
-                                            'credit': value_d,
-                                            'account': account_check,
-                                            'move': move_new,
-                                            'journal': line.journal,
-                                            'period': line.period,
-                                            'date' : line.date,
-                                            })
-                    created_lines = MoveLine.create(move_lines_new)
-                    Move.post([move_new])
+                                    move_lines_new.append({
+                                        'description': line.description,
+                                        'debit': Decimal(0.0),
+                                        'credit': value_d,
+                                        'account': account_check,
+                                        'move': move_new,
+                                        'journal': line.journal,
+                                        'period': line.period,
+                                        'date' : line.date,
+                                        })
+            created_lines = MoveLine.create(move_lines_new)
+            Move.post([move_new])
