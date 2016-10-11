@@ -267,6 +267,10 @@ class ProtestedCheck(Wizard):
         MoveLine = pool.get('account.move.line')
         Configuration = pool.get('account.configuration')
         postdateds = Postdated.browse(Transaction().context['active_ids'])
+        value_d = Decimal(0.0)
+        crear = False
+        moves = None
+        moves_first = None
 
         if Configuration(1).default_account_check:
             account_check = Configuration(1).default_account_check
@@ -283,6 +287,16 @@ class ProtestedCheck(Wizard):
                     'date': p.move.date,
                     'origin': str(p.move.origin),
                 }])
+
+                for line_p in p.lines:
+                    moves_first = Move.search([('description', '=', line_p.name)])
+
+                if moves_first:
+                    for move_first in moves_first:
+                        for line in move_first.lines:
+                            if (line.party != None) and (line.reconciliation != None):
+                                    crear = True
+
                 for line in p.move.lines:
                     if line.debit == Decimal (0.0):
                         move_lines.append({
@@ -310,3 +324,49 @@ class ProtestedCheck(Wizard):
                 Move.post([move])
             else:
                 self.raise_user_error('Verifique que el documento sea cheque y se encuentre depositado')
+
+        if crear == True:
+            for p in postdateds:
+                move_lines_new = []
+                line_move_ids_new = []
+
+                move_new, = Move.create([{
+                    'period': p.move.period,
+                    'journal': p.move.journal,
+                    'date': p.move.date,
+                    'origin': str(p.move.origin),
+                }])
+                for line in p.move.lines:
+                    if line.account == account_check :
+                        value_d = line.debit
+
+                    for line_p in p.lines:
+                        moves = Move.search([('description', '=', line_p.name)])
+
+                    if moves:
+                        for move in moves:
+                            for line in move.lines:
+                                if (line.party != None) and (line.reconciliation != None):
+                                        move_lines_new.append({
+                                            'description': line.description,
+                                            'debit': value_d,
+                                            'credit': Decimal(0.0),
+                                            'account': line.account,
+                                            'move': move_new,
+                                            'journal': line.journal,
+                                            'period': line.period,
+                                            'date' : line.date,
+                                            })
+
+                                        move_lines_new.append({
+                                            'description': line.description,
+                                            'debit': Decimal(0.0),
+                                            'credit': value_d,
+                                            'account': account_check,
+                                            'move': move_new,
+                                            'journal': line.journal,
+                                            'period': line.period,
+                                            'date' : line.date,
+                                            })
+                    created_lines = MoveLine.create(move_lines_new)
+                    Move.post([move_new])
