@@ -12,4 +12,8 @@ def register():
         AccountPostDateCheck,
         AccountPostDatedCheckLine,
         Move,
+        ProtestedCheckStart,
         module='nodux_account_postdated_check', type_='model')
+    Pool.register(
+        ProtestedCheck,
+        module='nodux_account_postdated_check', type_='wizard')

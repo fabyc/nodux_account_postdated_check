@@ -61,5 +61,23 @@ the full copyright notices and license terms. -->
             <field name="name">lines_tree</field>
         </record>
 
+      <!-- Protested-->
+        <record model="ir.ui.view" id="protested_check_start_view_form">
+            <field name="model">account.protested_check.start</field>
+            <field name="type">form</field>
+            <field name="name">protested_check_start_form</field>
+        </record>
+
+        <record model="ir.action.wizard" id="wizard_protested_check">
+            <field name="name">Protested Check</field>
+            <field name="wiz_name">account.protested_check</field>
+            <field name="model">account.postdated</field>
+        </record>
+
+        <record model="ir.action.keyword" id="act_wizard_protested_check_keyword">
+            <field name="keyword">form_action</field>
+            <field name="model">account.postdated,-1</field>
+            <field name="action" ref="wizard_protested_check"/>
+        </record>
     </data>
 </tryton>

@@ -6,11 +6,14 @@ from decimal import Decimal
 from trytond.model import ModelSingleton, ModelView, ModelSQL, fields
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, In
-from trytond.pool import Pool
+from trytond.pool import Pool, PoolMeta
 from trytond.report import Report
 import pytz
 from datetime import datetime,timedelta
 import time
+from trytond.wizard import Wizard, StateAction, StateView, StateTransition, \
+    Button
+from trytond.pyson import If, Eval, Bool, PYSONEncoder, Id
 
 conversor = None
 try:
@@ -21,7 +24,9 @@ except:
     print("Please install it...!")
 
 
-__all__ = [ 'PostDatedCheckSequence', 'AccountPostDateCheck', 'AccountPostDatedCheckLine']
+__all__ = [ 'PostDatedCheckSequence', 'AccountPostDateCheck', 'AccountPostDatedCheckLine',
+    'ProtestedCheckStart', 'ProtestedCheck']
+__metaclass__ = PoolMeta
 
 _STATES = {
     'readonly': In(Eval('state'), ['posted']),
@@ -237,3 +242,71 @@ class AccountPostDatedCheckLine(ModelSQL, ModelView):
     date_expire = fields.Date('Expired Date')
     num_check = fields.Char('No. check')
     num_account = fields.Char('No. account')
+
+class ProtestedCheckStart(ModelView):
+    'Protested Check Start'
+    __name__ = 'account.protested_check.start'
+
+
+class ProtestedCheck(Wizard):
+    'Protested Check'
+    __name__ = 'account.protested_check'
+    start = StateView('account.protested_check.start',
+        'nodux_account_postdated_check.protested_check_start_view_form', [
+            Button('Exit', 'end', 'tryton-cancel'),
+            Button('Protested', 'protested_', 'tryton-ok', default=True),
+            ])
+    protested_ = StateAction('nodux_account_postdated_check.act_postdated_check_form')
+
+    def do_protested_(self, action):
+        pool = Pool()
+        Postdated = pool.get('account.postdated')
+        Sale = pool.get('sale.sale')
+        Invoice = pool.get('account.invoice')
+        Move = pool.get('account.move')
+        MoveLine = pool.get('account.move.line')
+        Configuration = pool.get('account.configuration')
+        postdateds = Postdated.browse(Transaction().context['active_ids'])
+
+        if Configuration(1).default_account_check:
+            account_check = Configuration(1).default_account_check
+        else:
+            self.raise_user_error('No ha configurado la cuenta por defecto para Cheques. \n Dirijase a: -Financiero -Configuracion -Configuracion Contable')
+
+        for p in postdateds:
+            if (p.state == 'posted') and (p.postdated_type == 'check'):
+                move_lines = []
+                line_move_ids = []
+                move, = Move.create([{
+                    'period': p.move.period,
+                    'journal': p.move.journal,
+                    'date': p.move.date,
+                    'origin': str(p.move.origin),
+                }])
+                for line in p.move.lines:
+                    if line.debit == Decimal (0.0):
+                        move_lines.append({
+                            'description': line.description,
+                            'debit': line.credit,
+                            'credit': Decimal(0.0),
+                            'account': line.account,
+                            'move': move,
+                            'journal': line.journal,
+                            'period': line.period,
+                            'date' : line.date,
+                            })
+                    else:
+                        move_lines.append({
+                            'description': line.description,
+                            'debit': Decimal(0.0),
+                            'credit': line.debit,
+                            'account': line.account,
+                            'move': move,
+                            'journal': line.journal,
+                            'period': line.period,
+                            'date' : line.date,
+                            })
+                created_lines = MoveLine.create(move_lines)
+                Move.post([move])
+            else:
+                self.raise_user_error('Verifique que el documento sea cheque y se encuentre depositado')

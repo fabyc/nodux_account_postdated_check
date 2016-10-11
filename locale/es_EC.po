@@ -62,6 +62,10 @@ msgctxt "field:account.postdated,rec_name:"
 msgid "Name"
 msgstr "Nombre"
 
+msgctxt "field:account.postdated,reference:"
+msgid "Reference"
+msgstr "Referencia"
+
 msgctxt "field:account.postdated,state:"
 msgid "State"
 msgstr "Estado"
@@ -98,6 +102,10 @@ msgctxt "field:account.postdated.line,date:"
 msgid "Date"
 msgstr "Fecha"
 
+msgctxt "field:account.postdated.line,date_expire:"
+msgid "Expired Date"
+msgstr "Fecha vencimiento"
+
 msgctxt "field:account.postdated.line,id:"
 msgid "ID"
 msgstr "ID"
@@ -109,6 +117,14 @@ msgstr "Línea de asiento"
 msgctxt "field:account.postdated.line,name:"
 msgid "Reference"
 msgstr "Nombre"
+
+msgctxt "field:account.postdated.line,num_account:"
+msgid "No. account"
+msgstr "No. Cuenta"
+
+msgctxt "field:account.postdated.line,num_check:"
+msgid "No. check"
+msgstr "No. Cheque"
 
 msgctxt "field:account.postdated.line,number:"
 msgid "Deposit number"
@@ -158,6 +174,10 @@ msgctxt "field:account.postdated.sequence,write_uid:"
 msgid "Write User"
 msgstr "Modificado por Usuario"
 
+msgctxt "field:account.protested_check.start,id:"
+msgid "ID"
+msgstr "ID"
+
 msgctxt "help:account.postdated,number:"
 msgid "Post dated check number"
 msgstr "Número de cheque posfechado"
@@ -174,21 +194,21 @@ msgctxt "model:account.postdated.sequence,name:"
 msgid "Post Dated Check Sequence"
 msgstr "Secuencia de cheques posfechados"
 
+msgctxt "model:account.protested_check.start,name:"
+msgid "Protested Check Start"
+msgstr "Cheque Protestado"
+
 msgctxt "model:ir.action,name:"
 msgid "All Vouchers"
-msgstr "Todos los comprobantes"
+msgstr "Cheques postfechados recibidos"
 
 msgctxt "model:ir.action,name:act_postdated_check_form"
 msgid "All Post Dated Check"
 msgstr "Todos los cheques posfechados"
 
-msgctxt "model:ir.action,name:act_postdated_check_payment_form"
-msgid "Payments"
-msgstr "Cheques posfechados emitidos"
-
-msgctxt "model:ir.action,name:act_postdated_check_receipt_form"
-msgid "Receipts"
-msgstr "Cheques postfechados recibidos"
+msgctxt "model:ir.action,name:wizard_protested_check"
+msgid "Protested Check"
+msgstr "Cheque Protestado"
 
 msgctxt "model:ir.sequence,name:"
 msgid "Account Voucher"
@@ -208,7 +228,7 @@ msgstr "Cheques posfechados"
 
 msgctxt "model:ir.ui.menu,name:"
 msgid "All Vouchers"
-msgstr "Todos los comprobantes"
+msgstr "Cheques posfechados recibidos"
 
 msgctxt "model:ir.ui.menu,name:menu_postdated_check"
 msgid "Postdated Check"
@@ -217,14 +237,6 @@ msgstr "Cheques posfechados"
 msgctxt "model:ir.ui.menu,name:menu_postdated_check_form"
 msgid "All Post Dated Check"
 msgstr "Todos los cheques posfechados"
-
-msgctxt "model:ir.ui.menu,name:menu_postdated_check_payment_form"
-msgid "Payments"
-msgstr "Cheques posfechados emitidos"
-
-msgctxt "model:ir.ui.menu,name:menu_postdated_check_receipt_form"
-msgid "Receipts"
-msgstr "Cheques posfechados recibidos"
 
 msgctxt "selection:account.postdated,post_check_type:"
 msgid "Payment"
@@ -265,3 +277,19 @@ msgstr "Cheques posfechados"
 msgctxt "view:account.postdated:"
 msgid "_Depositar"
 msgstr "Depositar"
+
+msgctxt "view:account.protested_check.start:"
+msgid "Are you sure that is protested check?"
+msgstr "¿Está seguro que es un cheque protestado?"
+
+msgctxt "view:account.protested_check.start:"
+msgid "Confirm Protested Check"
+msgstr "Confirmar Cheque Protestado"
+
+msgctxt "wizard_button:account.protested_check,start,end:"
+msgid "Exit"
+msgstr "Salir"
+
+msgctxt "wizard_button:account.protested_check,start,protested_:"
+msgid "Protested"
+msgstr "Protestado"
