@@ -17,3 +17,6 @@ def register():
     Pool.register(
         ProtestedCheck,
         module='nodux_account_postdated_check', type_='wizard')
+    Pool.register(
+        PrintCheck,
+        module='nodux_account_postdated_check', type_='report')

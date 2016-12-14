@@ -79,5 +79,20 @@ the full copyright notices and license terms. -->
             <field name="model">account.postdated,-1</field>
             <field name="action" ref="wizard_protested_check"/>
         </record>
+
+        <!--Print Check -->
+        <record model="ir.action.report" id='print_check_post'>
+            <field name="name">Imprimir Cheque</field>
+            <field name="model">account.postdated</field>
+            <field name="report_name">account.postdated.print_check</field>
+            <field name="report">nodux_account_postdated_check/check.odt</field>
+            <field name="style"></field>
+        </record>
+
+       <record model="ir.action.keyword" id="report_check_post_keyword">
+           <field name="keyword">form_print</field>
+           <field name="model">account.postdated,-1</field>
+           <field name="action" ref="print_check_post"/>
+       </record>
     </data>
 </tryton>

@@ -25,7 +25,7 @@ except:
 
 
 __all__ = [ 'PostDatedCheckSequence', 'AccountPostDateCheck', 'AccountPostDatedCheckLine',
-    'ProtestedCheckStart', 'ProtestedCheck']
+    'ProtestedCheckStart', 'ProtestedCheck', 'PrintCheck']
 __metaclass__ = PoolMeta
 
 _STATES = {
@@ -86,6 +86,12 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         cls._order.insert(1, ('number', 'DESC'))
 
 
+    def get_amount2words(self, value):
+            if conversor:
+                return (conversor.cardinal(int(value))).upper()
+            else:
+                return ''
+
     @staticmethod
     def default_state():
         return 'draft'
@@ -108,6 +114,7 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         journal = Journal.search([('type','=', 'expense')])
         journal_r = Journal.search([('type', '=', 'revenue')])
         post_check_type_id = Transaction().context.get('post_check_type')
+
         if post_check_type_id == 'receipt':
             for j in journal_r:
                 return j.id
@@ -374,3 +381,38 @@ class ProtestedCheck(Wizard):
                                         })
             created_lines = MoveLine.create(move_lines_new)
             Move.post([move_new])
+
+class PrintCheck(Report):
+    'Print Check'
+    __name__ = 'account.postdated.print_check'
+
+    @classmethod
+    def parse(cls, report, objects, data, localcontext=None):
+        Company = Pool().get('company.company')
+        company_id = Transaction().context.get('company')
+        company = Company(company_id)
+        monto = Decimal(0.0)
+
+        for obj in objects:
+            for line in obj.lines:
+                monto += line.amount
+            d = str(monto)
+            decimales = d[-2:]
+            if decimales[0] == '.':
+                 decimales = decimales[1]+'0'
+            amount_to_pay_words = obj.get_amount2words(monto)
+
+        if company.timezone:
+            timezone = pytz.timezone(company.timezone)
+            dt = datetime.now()
+            hora = datetime.astimezone(dt.replace(tzinfo=pytz.utc), timezone)
+
+        localcontext['company'] = company
+        localcontext['decimales'] = decimales
+        localcontext['hora'] = hora.strftime('%H:%M:%S')
+        localcontext['fecha'] = hora.strftime('%d/%m/%Y')
+        localcontext['monto'] = monto
+        localcontext['amount_to_pay_words'] =  amount_to_pay_words
+
+        return super(PrintCheck, cls).parse(report,
+                objects, data, localcontext)
