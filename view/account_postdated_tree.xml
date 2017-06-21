@@ -8,4 +8,5 @@ the full copyright notices and license terms. -->
     <field name="date"/>
     <field name="state"/>
     <field name="postdated_type"/>
+    <!--button name="post" string="Depositar"/-->
 </tree>

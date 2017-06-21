@@ -198,14 +198,23 @@ class AccountPostDateCheck(ModelSQL, ModelView):
         created_lines = MoveLine.create(move_lines)
         Move.post([self.move])
         Voucher = pool.get('account.voucher')
+        Module = pool.get('ir.module.module')
+        module_advanced = Module.search([('name', '=', 'nodux_sale_payment_advanced_payment'), ('state', '=', 'installed')])
 
         reconcile_lines = []
 
         for line in self.lines:
             voucher = Voucher.search([('number', '=', line.name)])
-            for v in voucher:
-                move = v.move
-            line_r = MoveLine.search([('account', '=', line.account.id), ('move', '=', move.id)])
+
+            if voucher:
+                for v in voucher:
+                    move = v.move
+                line_r = MoveLine.search([('account', '=', line.account.id), ('move', '=', move.id)])
+
+            if module_advanced:
+                if move:
+                    for m in move:
+                        line_r = MoveLine.search([('account', '=', line.account.id), ('move', '=', m.id)])
 
             for line in line_r:
                 reconcile_lines.append(line)
@@ -239,6 +248,7 @@ class AccountPostDatedCheckLine(ModelSQL, ModelView):
     __name__ = 'account.postdated.line'
 
     postdated = fields.Many2One('account.postdated', 'Postdated check')
+    reference = fields.Char('Reference')
     name = fields.Char('Reference')
     account = fields.Many2One('account.account', 'Account')
     amount = fields.Numeric('Amount', digits=(16, 2))
